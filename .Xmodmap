@@ -1,0 +1,25 @@
+keycode 100 = Mode_switch
+
+keycode 24 = q Q bracketleft NoSymbol
+keycode 25 = w W bracketright NoSymbol
+keycode 26 = e E less NoSymbol
+keycode 27 = r R greater NoSymbol
+keycode 28 = t T slash NoSymbol
+keycode 34 = NoSymbol braceleft
+keycode 35 = NoSymbol braceright 
+keycode 37 = Control_L
+keycode 38 = a A semicolon 6
+keycode 39 = s S quotedbl 7
+keycode 40 = d D NoSymbol 8
+keycode 41 = f F period 9
+keycode 42 = g G ampersand 0
+keycode 47 = apostrophe colon
+keycode 48 = apostrophe NoSymbol
+keycode 52 = z Z NoSymbol 
+keycode 53 = x X NoSymbol 
+keycode 54 = c C comma
+keycode 55 = v V asterisk
+keycode 56 = b B NoSymbol
+keycode 59 = grave NoSymbol NoSymbol NoSymbol
+keycode 60 = asciitilde NoSymbol NoSymbol NoSymbol
+keycode 61 = NoSymbol question 

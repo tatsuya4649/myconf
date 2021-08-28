@@ -24,7 +24,9 @@ highlight Comment ctermfg=green
 autocmd CursorMoved * checktime
 
 nmap <C-g> :Gtags -g
-nmap <C-l> :Gtags -f %<CR>
+nmap <C-b> <C-w><C-w><C-w>q
+nmap <C-f> :Gtags -x
+nmap <C-h> :Gtags -f %<CR>
 nmap <C-j> :Gtags <C-r><C-w><CR>
 nmap <C-k> :Gtags -r <C-r><C-w><CR>
 nmap <C-n> :cn<CR>
