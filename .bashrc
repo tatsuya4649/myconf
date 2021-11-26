@@ -126,6 +126,7 @@ export EDITOR='vim'
 export LIBGL_ALWAYS_INDIRECT=1
 alias x="xmodmap ~/.Xmodmap"
 alias rm="trash-put"
+alias grep="grep --color"
 export LANG=C
 export DIR_COLORS="$HOME/.dircolors"
 export PATH=$PATH:$HOME/.local/bin
