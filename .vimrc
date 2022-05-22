@@ -48,17 +48,19 @@ autocmd CursorMoved * checktime
 nmap <C-g> :Gtags -g  
 nmap <C-b> <C-w><C-w><C-w>q
 nmap <C-f> :Gtags -x  
-"nmap <C-j> :Gtags <C-r><C-w><CR>"
+nmap <C-k> :GtagsCursor<CR>
 nmap <C-h> :Gtags -f %<CR>
 nmap <C-k> :Gtags -r <C-r><C-w><CR>
-"nmap <C-n> :cn<CR>"
-"nmap <C-p> :cp<CR>"
-nmap <C-w> d,w
+nmap <C-n> :cn<CR>
+nmap <C-p> :cp<CR>
+nnoremap J :
+nnoremap K J
+nnoremap <silent> W d<Plug>CamelCaseMotion_w
 nmap Y y$
-nmap <C-n> :Fern . -reveal=% -drawer -toggle -width=40<CR>
-nmap <C-j> :AnyJump<CR>
-nmap <C-b> :AnyJumpBack<CR>
-nmap <C-c> :AnyJumpLastResults<CR>
+nmap <C-i> :Fern . -reveal=% -drawer -toggle -width=40<CR>"
+"nmap <C-j> :AnyJump<CR>"
+"nmap <C-b> :AnyJumpBack<CR>"
+"nmap <C-c> :AnyJumpLastResults<CR>"
 
 let g:any_jump_colors = {
       \"plain_text":         "Comment",
@@ -86,4 +88,3 @@ set fileformats=unix,dos,mac
 set iminsert=0
 set imsearch=0
 set imcmdline
-
