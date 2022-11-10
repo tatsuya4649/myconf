@@ -1,4 +1,6 @@
 set nocompatible
+set autoread
+set mouse=r
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
@@ -16,12 +18,15 @@ Plugin 'pechorin/any-jump.vim'
 Plugin 'morhetz/gruvbox'
 Plugin 'preservim/nerdtree'
 Plugin 'xuyuanp/nerdtree-git-plugin'
-"About Go"
-Plugin 'fatih/vim-go'
-"About Rust"
-Plugin 'rust-lang/rust.vim'
-Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plugin 'junegunn/fzf.vim'
+
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+Plugin 'antoinemadec/coc-fzf'
+Plugin 'dense-analysis/ale'
+Plugin 'voldikss/vim-floaterm'
+Plugin 'haishanh/night-owl.vim'
+
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 call vundle#end()
 
@@ -49,23 +54,13 @@ set laststatus=2
 
 autocmd CursorMoved * checktime
 
-nmap <C-g> :Gtags -g  
 nmap <C-b> <C-w><C-w><C-w>q
-nmap <C-f> :Gtags -x  
-nmap <C-k> :GtagsCursor<CR>
-nmap <C-h> :Gtags -f %<CR>
-nmap <C-j> :GtagsCursor<CR>
-nmap <C-k> :Gtags -r <C-r><C-w><CR>
-nmap <C-y> :cn<CR>
-nmap <C-p> :cp<CR>
 nnoremap J :
 nnoremap K J
 nnoremap <silent> <C-n> :bprev<CR>
 nnoremap <silent> <C-m> :bnext<CR>
 nnoremap <silent> W d<Plug>CamelCaseMotion_w
 nmap Y y$
-nnoremap <silent> <C-t> :NERDTreeToggle<CR>
-
 
 let g:any_jump_colors = {
       \"plain_text":         "Comment",
@@ -95,7 +90,6 @@ set imcmdline
 
 set t_Co=256
 set bg=dark
-"colorscheme peachpuff"
 highlight Comment ctermfg=green
 highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
@@ -117,11 +111,112 @@ let $FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/**'"
 let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'border': 'sharp' } }
 
 let mapleader = "\<Space>"
+nnoremap <SPACE> <Nop>
+nnoremap <leader>t :NERDTreeToggle<CR>
 
-" fzf
-nnoremap <silent> <leader>f :Files<CR>
-nnoremap <silent> <leader>g :GFiles<CR>
-nnoremap <silent> <leader>G :GFiles?<CR>
-nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>h :History<CR>
-nnoremap <silent> <leader>r :Rg<CR>
+set timeout timeoutlen=130
+inoremap <silent>fj <Esc>
+noremap <silent>fj <Esc>
+inoremap <silent>dj {}<Left>
+inoremap <silent>sj []<Left>
+inoremap <silent>aj ()<Left>
+inoremap <silent>vj <><Left>
+inoremap <silent>ja ``<Left>
+inoremap wj <Esc>:w<CR>
+inoremap <silent><C-f> <right>
+inoremap <silent><C-b> <left>
+inoremap <silent><C-y> {
+inoremap <silent><C-u> }
+inoremap <silent><C-d> -
+inoremap <silent><C-p> =
+inoremap <silent><C-l> $
+inoremap <silent><C-n> :
+inoremap <silent><C-s> \
+inoremap <silent><C-t> \|
+inoremap <silent><C-r> _
+inoremap <silent><C-x> ?
+
+tnoremap <silent><C-e> <C-\><C-n>:FloatermNew<CR>
+nnoremap <silent><C-p>  :FloatermPrev<CR>
+tnoremap <silent><C-p>  <C-\><C-n>:FloatermPrev<CR>
+nnoremap <silent><C-l>  :FloatermNext<CR>
+tnoremap <silent><C-l>  <C-\><C-n>:FloatermNext<CR>
+nnoremap <silent><C-t> :FloatermToggle<CR>
+tnoremap <silent><C-t> <C-\><C-n>:FloatermToggle<CR>
+nnoremap <silent><C-k> :FloatermKill<CR>
+tnoremap <silent><C-k> <C-\><C-n>:FloatermKill<CR>
+tnoremap <silent><Esc> <C-\><C-n>
+nnoremap <silent><C-q>  :terminal<CR>i
+tnoremap <silent><C-q>  <C-\><C-n>:bdelete!<CR>
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Use Ctrl-k to show documentation in preview window.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+inoremap <silent><expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
+inoremap <silent><expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
+inoremap <silent><expr> <Esc> coc#pum#visible() ? coc#pum#cancel() : "\<Esc>"
+
+inoremap <silent><BS> <nop>
+
+nnoremap <silent><leader>r xph
+nnoremap <silent><leader>l hxp
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+nmap gl :CocFzfList<CR>
+nmap gm :CocList mru<CR>
+nmap gr :CocFzfList grep<CR>
+nmap dg :CocFzfList diagnostics<CR>
+
+let g:ale_linters = {
+    \ 'python': [],
+    \ }
+
+let g:ale_fixers = {
+    \	'python': ['autopep8', 'black', 'isort'],
+	\   'typescript': ['prettier'],
+	\   'typescriptreact': ['prettier'],
+	\   'javascript': ['prettier'],
+	\   'javascriptreact': ['prettier'],
+	\   'css': ['prettier'],
+    \ }
+
+let g:python3_host_prog = "python"
+let g:ale_python_flake8_executable = g:python3_host_prog
+let g:ale_python_flake8_options = '-m flake8'
+let g:ale_python_autopep8_executable = g:python3_host_prog
+let g:ale_python_autopep8_options = '-m autopep8'
+let g:ale_python_isort_executable = g:python3_host_prog
+let g:ale_python_isort_options = '-m isort'
+let g:ale_python_black_executable = g:python3_host_prog
+let g:ale_python_black_options = '-m black'
+
+let g:ale_fix_on_save = 1
+let g:ale_fix_on_enter = 0
+let g:ale_completion_autoimport = 1
+let g:ale_disable_lsp = 1
+let g:ale_enabled = 1
+let g:ale_linters_explicit = 1
+
+nnoremap x "_x
+nnoremap s "_s
+
+autocmd! bufwritepost $MYVIMRC source %
+hi Floaterm guibg=black
+hi FloatermBorder guibg=black guifg=cyan
+
+" For airline
+let g:airline#extensions#tabline#enabled = 1
+colorscheme night-owl
